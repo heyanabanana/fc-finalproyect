@@ -10,7 +10,9 @@ const customCityFilter = (rows, id, filterValue) =>
   rows.filter((row) => row.original.city === filterValue);
 const customCountryFilter = (rows, id, filterValue) =>
   rows.filter((row) => row.original.country === filterValue);
-  const customRemoteFilter = (rows, id, filterValue) =>
+const customRemoteFilter = (rows, id, filterValue) =>
+  rows.filter((row) => row.original.remote === filterValue);
+const customMobilityFilter = (rows, id, filterValue) =>
   rows.filter((row) => row.original.remote === filterValue);
 
 const Candidatetable = () => {
@@ -54,29 +56,40 @@ const Candidatetable = () => {
       {
         accessor: "remote",
         Cell: dontShow,
-        filter: customRemoteFilter
+        filter: customRemoteFilter,
       },
       {
         accessor: "mobility",
         Cell: dontShow,
+        filter: customMobilityFilter,
+
       },
     ],
     []
   );
   const [city, setCity] = useState();
   const [country, setCountry] = useState();
-    const [remote, setRemote] = useState();
+  const [remote, setRemote] = useState();
+  const [mobility, setMobility] = useState();
+
   const data = React.useMemo(() => candidateData, []);
 
   return (
     <span className="bg-gray-light w-full h-full">
-      <ExternalFilters data={data} setCity={setCity} setCountry={setCountry} setRemote={setRemote}/>
+      <ExternalFilters
+        data={data}
+        setCity={setCity}
+        setCountry={setCountry}
+        setRemote={setRemote}
+        setMobility={setMobility}
+      />
       <Table
         columns={columns}
         data={data}
         cityFilter={city}
         countryFilter={country}
         remoteFilter={remote}
+        mobilityFilter={mobility}
       />
       {console.log(remote)}
     </span>

@@ -22,7 +22,7 @@ import BoldTitle from "../Utils/BoldTitle";
 import ButtonWhite from "../Buttons/ButtonWhite";
 import SelectInput from "../Forms/SelectInput";
 
-const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter }) => {
+const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilityFilter }) => {
   const {
     getTableProps,
     state: { pageIndex },
@@ -59,8 +59,9 @@ const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter }) => {
     setFilter("city", cityFilter);
     setFilter("country", countryFilter);
     setFilter("remote", remoteFilter)
+    setFilter("mobility", mobilityFilter);
 
-  }, [cityFilter, countryFilter, remoteFilter, setFilter]);
+  }, [cityFilter, countryFilter, mobilityFilter, remoteFilter, setFilter]);
 
   return (
     <span className="flex flex-col lg:flex-row items-evenly h-full bg-gray-light">

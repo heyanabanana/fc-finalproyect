@@ -30,7 +30,7 @@ export function GlobalFilter({ globalFilter, setGlobalFilter }) {
   );
 }
 
-export function ExternalFilters({ data, setCountry, setCity, setRemote }) {
+export function ExternalFilters({ data, setCountry, setCity, setRemote, setMobility }) {
   return (
     <span className="flex flex-col bg-white p-10 rounded-xl">
       <span className="flex flex-col mb-5">
@@ -60,9 +60,12 @@ export function ExternalFilters({ data, setCountry, setCity, setRemote }) {
         />
       </span>
       <span className="flex flex-col mb-5">
-        <LabelInput label="Presencial / a distancia " htmlFor="Remoto" />
-
+        <LabelInput label="Presencial / a distancia" htmlFor="Traslado" />
         <RadioButtons label1="Presencial" label2="En remoto" onChange1={() => setRemote(false)} onChange2={() => setRemote(true)} name="remote"/>
+      </span>
+      <span className="flex flex-col mb-5">
+        <LabelInput label="Posibilidad traslado " htmlFor="Traslado" />
+        <RadioButtons label1="Si" label2="No" onChange1={() => setRemote(true)} onChange2={() => setRemote(false)} name="mobility"/>
       </span>
     </span>
   );
