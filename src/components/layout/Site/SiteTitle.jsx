@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const SiteTitle = (props) => {
   return (
-    <span className="text-2xl">
+    <span className="text-2xl mb-5">
       <span className="">{props.title}</span>{" "}
       <span className="text-primary font-semibold">| {props.subtitle}</span>
     </span>
