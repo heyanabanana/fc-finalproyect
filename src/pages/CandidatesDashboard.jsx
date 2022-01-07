@@ -4,9 +4,9 @@ import DashboardMenu from "../components/containers/DashboardMenu";
 
 const CandidatesDashboard = () => {
   return (
-    <div className="bg-gray-light h-screen p-10">
+    <div className="bg-gray-light h-screen w-full p-10">
       <DashboardMenu />
-      <span className="flex justify-center items-center mt-5">
+      <span className="flex justify-center h-auto items-center mt-5 bg-gray-light">
         <Candidatetable />
       </span>
     </div>
