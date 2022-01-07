@@ -2,7 +2,6 @@ import React from "react";
 import {
   useTable,
   useGlobalFilter,
-  useAsyncDebounce,
   useSortBy,
   useFilters,
   usePagination,
@@ -14,48 +13,19 @@ import {
   ChevronRightIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/solid";
-import {
-  TrashIcon,
-  SearchIcon,
-  SwitchVerticalIcon,
-  PlusSmIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { SwitchVerticalIcon, PlusSmIcon } from "@heroicons/react/outline";
+
+//COMPONENTS
 import { Button, PageButton } from "../Buttons/ButtonPage";
-
-//BUSQUEDA GLOBAL
-function GlobalFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) {
-  const [value, setValue] = React.useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
-
-  return (
-    <span className="flex items-center min-w-content bg-gray-medium p-2 text-xs rounded-lg focus:outline-primary border-none ">
-      <span className="mr-3 ml-1 text-pink">
-        <SearchIcon className="w-5 " />
-      </span>
-      <input
-        value={value || ""}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        placeholder={"Buscar por Nombre, Email o Palabra clave..."}
-        className="placeholder:text-placeholder w-72 bg-gray-medium text-sm rounded-lg focus:outline-none border-none "
-      />
-    </span>
-  );
-}
+import { GlobalFilter } from "./TableFilters";
+import BoldTitle from "../Utils/BoldTitle";
+import ButtonWhite from "../Buttons/ButtonWhite";
+import SelectInput from "../Forms/SelectInput";
 
 const Table = ({ columns, data }) => {
   const {
     getTableProps,
-    state: { pageIndex, pageSize },
+    state: { pageIndex },
     preGlobalFilteredRows,
     setGlobalFilter,
     getTableBodyProps,
@@ -85,21 +55,21 @@ const Table = ({ columns, data }) => {
   );
 
   return (
-    <span className="bg-gray-light h-full w-screen flex flex-col lg:flex-row items-evenly">
+    <span className="flex flex-col lg:flex-row items-evenly h-full bg-gray-light">
       <span className="flex flex-col  pl-10 w-full p-5">
         <span className="flex mb-3 items-start md:items-center justify-between flex-col sm:flex-row ">
           <span className="flex items-start md:items-center flex-col sm:flex-row m-1">
-            <h1 className="font-semibold mr-6">Alumnos</h1>
+            <BoldTitle text="Alumnos" />
             <GlobalFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               globalFilter={pageIndex.globalFilter}
               setGlobalFilter={setGlobalFilter}
             />{" "}
           </span>
-          <button className="bg-white font-semibold px-4 py-2 rounded-lg border border-gray-medium flex items-center hover:bg-gray-light">
-            <PlusSmIcon className="w-5 mr-3" />
-            Añadir alumno
-          </button>
+          <ButtonWhite
+            text="Añadir alumno"
+            icon={<PlusSmIcon className="w-5 mr-3" />}
+          />
         </span>
         <span className=" rounded-xl bg-white overflow-x-auto overflow-hidden border border-gray-medium sm:rounded-xl">
           <table
@@ -163,25 +133,22 @@ const Table = ({ columns, data }) => {
           </div>
           <div className="hidden pagination w-auto md:flex justify-between px-6 py-3">
             <span className="flex w-auto  items-center justify-start">
-              <span className="w-3/5 pl-5 pr-5">
-                Page
+              <span className="w-3/5  pr-5">
+                Pagina
                 <strong className="pl-2">
-                  {pageIndex + 1} of {pageOptions.length}
+                  {pageIndex + 1} de {pageOptions.length}
                 </strong>{" "}
               </span>
-              <select
-                className="bg-gray-light p-3 rounded-lg focus:outline-primary border-none pr-8"
-                value={pageSize}
+              <SelectInput
                 onChange={(e) => {
                   setPageSize(Number(e.target.value));
                 }}
-              >
-                {[5, 10, 20].map((pageSize) => (
+                options={[5, 10, 15].map((pageSize) => (
                   <option key={pageSize} value={pageSize}>
                     Mostrar {pageSize}
                   </option>
                 ))}
-              </select>
+              />
             </span>
             <span>
               <PageButton
