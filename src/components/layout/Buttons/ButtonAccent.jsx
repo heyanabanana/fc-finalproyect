@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const ButtonAccent = (props) => {
   return (
     <button
-      className="bg-primary p-4 text-white font-semibold rounded-xl"
+      className="bg-primary p-4 text-white font-semibold rounded-xl w-full"
       onClick={props.onClick}
       type={props.type}
     >
@@ -16,7 +16,7 @@ const ButtonAccent = (props) => {
 ButtonAccent.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.string,
 };
 
 export default ButtonAccent;

@@ -1,15 +1,18 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
+
+// components
 import LabelInput from "../layout/Forms/LabelInput";
 import TextInput from "../layout/Forms/TextInput";
 import ButtonAccent from "../layout/Buttons/ButtonAccent";
 import ErrorForm from "../layout/Forms/ErrorForm";
 import CheckBox from "../layout/Forms/CheckBox";
+import LinkAccent from "../layout/Site/LinkAccent";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm({});
@@ -19,14 +22,15 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <span className="mb-5 flex flex-col">
-      <LabelInput htmlFor="email" label="Email" />
-      <TextInput
-        placeholder="Introduce tu correo"
-        {...register("email", { required: true })}
-        type="text"
-      />
-      {errors.email && <ErrorForm text="El email es necesaria" />}
-      </span><LabelInput htmlFor="password" label="Contraseña" />
+        <LabelInput htmlFor="email" label="Email" />
+        <TextInput
+          placeholder="Introduce tu correo"
+          {...register("email", { required: true })}
+          type="text"
+        />
+        {errors.email && <ErrorForm text="El email es necesaria" />}
+      </span>
+      <LabelInput htmlFor="password" label="Contraseña" />
       <TextInput
         placeholder="Introduce tu contraseña"
         {...register("password", { required: true })}
@@ -34,17 +38,12 @@ const LoginForm = () => {
       />
       {errors.password && <ErrorForm text="La contraseña es necesaria" />}
       <span className="mt-5 mb-8 flex items-center justify-between">
-        <span className="flex items-center">
-          <CheckBox {...register("remember_token")} />
-          <label htmlFor="remember" className="text-sm text-black">
-            Recuérdame
-          </label>
-        </span>
-        <span className="cursor-pointer text-sm text-primary font-semibold">
-          He olvidado la contraseña
-        </span>
+        <CheckBox label="Recuérdame" {...register("remember_token")} />
+        <LinkAccent text="He olvidado la contraseña" />
       </span>
-      <ButtonAccent type="submit" text="Iniciar Sesión" />
+      <Link to="/dashboard">
+        <ButtonAccent type="submit" text="Iniciar Sesión" />
+      </Link>
     </form>
   );
 };
