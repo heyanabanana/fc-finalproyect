@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   useTable,
   useGlobalFilter,
@@ -22,12 +22,13 @@ import BoldTitle from "../Utils/BoldTitle";
 import ButtonWhite from "../Buttons/ButtonWhite";
 import SelectInput from "../Forms/SelectInput";
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter }) => {
   const {
     getTableProps,
     state: { pageIndex },
     preGlobalFilteredRows,
     setGlobalFilter,
+    setFilter, 
     getTableBodyProps,
     headerGroups,
     prepareRow,
@@ -53,6 +54,13 @@ const Table = ({ columns, data }) => {
     useSortBy,
     usePagination
   );
+  useEffect(() => {
+    // This will now use our custom filter for age
+    setFilter("city", cityFilter);
+    setFilter("country", countryFilter);
+    setFilter("remote", remoteFilter)
+
+  }, [cityFilter, countryFilter, remoteFilter, setFilter]);
 
   return (
     <span className="flex flex-col lg:flex-row items-evenly h-full bg-gray-light">
@@ -179,6 +187,7 @@ const Table = ({ columns, data }) => {
           </div>
         </span>
       </span>
+      
     </span>
   );
 };
