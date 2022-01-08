@@ -5,9 +5,12 @@ import {
   LocationMarkerIcon,
   CloudUploadIcon,
   TrashIcon,
+  XIcon,
 } from "@heroicons/react/outline";
 import TextInput from "../layout/Forms/TextInput";
 import { useForm } from "react-hook-form";
+import DataList from "../layout/Forms/DataListInput";
+import TagGray from "../layout/Tags/TagGray";
 
 //TODO CLEAR QUE ESTA TERRIBLE
 const CandidateProfile = (props) => {
@@ -110,6 +113,20 @@ const CandidateProfile = (props) => {
                 <TrashIcon className="w-5" />
                 <span class="ml-2">Borrar</span>{" "}
               </button>{" "}
+            </span>
+          </span>
+          <span className="mb-6">
+            <DataList values={props.skills} />
+            <span className="flex">
+              {props.skills &&
+                props.skills.map((skill) => (
+                  <TagGray
+                    key={skill.id}
+                    skill={skill.name}
+                    icon={<XIcon className="w-4" />}
+                    onClick={() => {}}
+                  />
+                ))}
             </span>
           </span>
         </span>
