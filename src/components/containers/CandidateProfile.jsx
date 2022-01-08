@@ -99,7 +99,7 @@ const CandidateProfile = (props) => {
             <label className="font-semibold" htmlFor="fullname">
               Documento CV
             </label>
-            <span className="flex">
+            <span className="flex mb-8">
               <button class=" cursor-pointer bg-gray-dark rounded-xl text-white font-semibold py-3 px-4 w-fit inline-flex items-center">
                 <CloudUploadIcon className="w-5" />
                 <span class="ml-2">Subir de nuevo</span>{" "}

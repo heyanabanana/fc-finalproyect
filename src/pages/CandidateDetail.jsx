@@ -25,8 +25,8 @@ const Candidatedetail = () => {
   return (
     <div className="h-screen w-screen bg-gray-light p-10">
       <DetailsMenu />
-      <span className="flex justify-evenly">
-        <span className="w-2/5 m-5">
+      <span className="flex flex-col md:flex-row justify-evenly mt-10">
+        <span className="w-full mb-5 md:w-2/5 ">
           <CandidateProfile
             avatar={candidate.avatar}
             fullname={candidate.fullname}
@@ -35,7 +35,9 @@ const Candidatedetail = () => {
             skills={candidate.skills}
           />
         </span>
-        <span className="w-2/4 m-5">{RenderPDF(candidate.curriculum)}</span>
+        <span className="w-full md:w-2/4 ">
+          {RenderPDF(candidate.curriculum)}
+        </span>
       </span>
     </div>
   );
