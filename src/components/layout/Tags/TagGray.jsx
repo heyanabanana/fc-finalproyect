@@ -5,13 +5,12 @@ import { XIcon } from "@heroicons/react/outline";
 const TagGray = (props) => {
   return (
     <span
-      className="mt-2 bg-gray-medium rounded-full px-3 py-1 text-sm font-semibold flex items-center w-fit"
+      className="mr-2 mt-2 uppercase bg-gray-medium rounded-full px-3 py-1 text-sm font-semibold flex items-center w-fit"
       value={props.value}
-      key={props.key}
     >
-      <span> value={props.skill}</span>{" "}
+      <span> {props.skill}</span>
       <button className="text-gray-dark" onClick={props.onClick}>
-        <XIcon className="w-4" />
+        <XIcon className="w-4 ml-2" />
       </button>
     </span>
   );

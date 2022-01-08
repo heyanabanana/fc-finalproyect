@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import {
   useTable,
   useGlobalFilter,
@@ -21,14 +21,25 @@ import { GlobalFilter } from "./TableFilters";
 import BoldTitle from "../Utils/BoldTitle";
 import ButtonWhite from "../Buttons/ButtonWhite";
 import SelectInput from "../Forms/SelectInput";
+import { Link } from "react-router-dom";
+import { Dialog } from "primereact/dialog";
+import NewCandidate from "../../containers/NewCandidate";
 
-const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilityFilter }) => {
+const Table = ({
+  columns,
+  data,
+  cityFilter,
+  countryFilter,
+  remoteFilter,
+  mobilityFilter,
+  skillsFilter,
+}) => {
   const {
     getTableProps,
     state: { pageIndex },
     preGlobalFilteredRows,
     setGlobalFilter,
-    setFilter, 
+    setFilter,
     getTableBodyProps,
     headerGroups,
     prepareRow,
@@ -58,13 +69,31 @@ const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilit
     // This will now use our custom filter for age
     setFilter("city", cityFilter);
     setFilter("country", countryFilter);
-    setFilter("remote", remoteFilter)
+    setFilter("remote", remoteFilter);
     setFilter("mobility", mobilityFilter);
+    setFilter("skills", skillsFilter);
+  }, [
+    cityFilter,
+    countryFilter,
+    mobilityFilter,
+    remoteFilter,
+    setFilter,
+    skillsFilter,
+  ]);
 
-  }, [cityFilter, countryFilter, mobilityFilter, remoteFilter, setFilter]);
+  const [displayNewCandidate, setdisplayNewCandidate] = useState(false);
+  const dialogFuncMap = {
+    displayNewCandidate: setdisplayNewCandidate,
+  };
+  const onHide = (name) => {
+    dialogFuncMap[`${name}`](false);
+  };
+  const onClick = (name, position) => {
+    dialogFuncMap[`${name}`](true);
+  };
 
   return (
-    <span className="flex flex-col lg:flex-row items-evenly h-full bg-gray-light">
+    <span className="flex flex-col lg:flex-row items-evenly h-full bg-gray-light overflow-auto ">
       <span className="flex flex-col  pl-10 w-full p-5">
         <span className="flex mb-3 items-start md:items-center justify-between flex-col sm:flex-row ">
           <span className="flex items-start md:items-center flex-col sm:flex-row m-1">
@@ -78,7 +107,23 @@ const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilit
           <ButtonWhite
             text="Añadir alumno"
             icon={<PlusSmIcon className="w-5 mr-3" />}
+            onClick={() => onClick("displayNewCandidate")}
           />
+          <Dialog
+            header="Añadir Alumno"
+            visible={displayNewCandidate}
+            maximizable
+            modal
+            style={{
+              height: "fit-content",
+              borderRadius: "20px",
+              overflow: "hidden",
+              fontFamily: "Raleway",
+            }}
+            onHide={() => onHide("displayNewCandidate")}
+          >
+            <NewCandidate onHide={() => onHide("displayNewCandidate")} />
+          </Dialog>
         </span>
         <span className=" rounded-xl bg-white overflow-x-auto overflow-hidden border border-gray-medium sm:rounded-xl">
           <table
@@ -123,7 +168,13 @@ const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilit
                           {...cell.getCellProps()}
                           className="pl-10 px-4 py-3 whitespace-nowrap"
                         >
-                          {cell.render("Cell")}
+                          {" "}
+                          <Link
+                            to={`/dashboard/candidate/${cell.row.id}`}
+                            id={cell.row.id}
+                          >
+                            {cell.render("Cell")}
+                          </Link>
                         </td>
                       );
                     })}
@@ -140,24 +191,26 @@ const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilit
               Siguiente
             </Button>
           </div>
-          <div className="hidden pagination w-auto md:flex justify-between px-6 py-3">
+          <div className="hidden pagination w-auto md:flex justify-between px-6 py-3 items-center mt-10">
             <span className="flex w-auto  items-center justify-start">
-              <span className="w-3/5  pr-5">
+              <span className="w-56">
                 Pagina
                 <strong className="pl-2">
                   {pageIndex + 1} de {pageOptions.length}
                 </strong>{" "}
               </span>
-              <SelectInput
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value));
-                }}
-                options={[5, 10, 15].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
-                    Mostrar {pageSize}
-                  </option>
-                ))}
-              />
+              <span className="-m-8 w-36 ">
+                <SelectInput
+                  onChange={(e) => {
+                    setPageSize(Number(e.target.value));
+                  }}
+                  options={[5, 10, 15].map((pageSize) => (
+                    <option key={pageSize} value={pageSize}>
+                      Mostrar {pageSize}
+                    </option>
+                  ))}
+                />
+              </span>
             </span>
             <span>
               <PageButton
@@ -188,7 +241,6 @@ const Table = ({ columns, data, cityFilter, countryFilter, remoteFilter, mobilit
           </div>
         </span>
       </span>
-      
     </span>
   );
 };

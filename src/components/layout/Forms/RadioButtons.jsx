@@ -2,7 +2,10 @@ import React from "react";
 
 export const RadioButtons = (props) => {
   return (
-    <span className="flex flex-col">
+    <span className="flex flex-col mb-8">
+      <label htmlFor={props.htmlFor} className="text-black font-semibold mb-3">
+        {props.label}
+      </label>
       <span className="flex items-center mb-2">
         <input
           type="radio"

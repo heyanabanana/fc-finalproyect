@@ -1,22 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const TagGray = (props) => {
+const TagAccent = (props) => {
   return (
     <span
       value={props.value}
-      key={props.key}
-      className="w-auto px-2 py-1 m-1 uppercase leading-wide font-semibold text-xs rounded-md  bg-primary text-white"
+      className="w-fit px-3 py-1 m-1 flex items-center uppercase leading-wide font-semibold text-xs rounded-lg  bg-primary text-white "
     >
-      {props.skill}
+      {props.skill} <button onClick={props.onClick}>{props.icon}</button>
     </span>
   );
 };
 
-TagGray.propTypes = {
+TagAccent.propTypes = {
   skill: PropTypes.string,
   value: PropTypes.string,
   key: PropTypes.string,
 };
 
-export default TagGray;
+export default TagAccent;

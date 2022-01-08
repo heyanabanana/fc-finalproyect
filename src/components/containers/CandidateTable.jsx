@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Table from "../layout/Table/Table";
 import { TagPill, dontShow, FullName } from "../layout/Table/TableTemplates";
 import candidateData from "../../data/CANDIDATESDATA.json";
-import SelectInput from "../layout/Forms/SelectInput";
-import LabelInput from "../layout/Forms/LabelInput";
+import skillsDatas from "../../data/SKILLSDATA.json";
 import { ExternalFilters } from "../layout/Table/TableFilters";
 
 const customCityFilter = (rows, id, filterValue) =>
@@ -13,7 +12,9 @@ const customCountryFilter = (rows, id, filterValue) =>
 const customRemoteFilter = (rows, id, filterValue) =>
   rows.filter((row) => row.original.remote === filterValue);
 const customMobilityFilter = (rows, id, filterValue) =>
-  rows.filter((row) => row.original.remote === filterValue);
+  rows.filter((row) => row.original.mobility === filterValue);
+// const customTagsFilter = (rows, filterValue) =>
+//   rows.filter((row) => row.original.skills === filterValue);
 
 const Candidatetable = () => {
   const columns = React.useMemo(
@@ -48,7 +49,8 @@ const Candidatetable = () => {
 
       {
         Header: "Etiquetas",
-        id: (data) => data.skills.map((skill) => skill.id),
+        id: "skills",
+        // id: (data) => data.skills.map((skill) => skill.id),
         accessor: (data) => data.skills.map((skill) => skill.name),
         Cell: TagPill,
         isSortable: true,
@@ -62,27 +64,30 @@ const Candidatetable = () => {
         accessor: "mobility",
         Cell: dontShow,
         filter: customMobilityFilter,
-
       },
     ],
     []
   );
+
+  const [skills, setSkills] = useState([]);
   const [city, setCity] = useState();
   const [country, setCountry] = useState();
   const [remote, setRemote] = useState();
   const [mobility, setMobility] = useState();
 
   const data = React.useMemo(() => candidateData, []);
+  const skillsData = React.useMemo(() => skillsDatas, []);
+
+  const clearFilters = () => {
+    setCity();
+    setCountry();
+    setRemote();
+    setMobility();
+    setSkills();
+  };
 
   return (
-    <span className="bg-gray-light w-full h-full">
-      <ExternalFilters
-        data={data}
-        setCity={setCity}
-        setCountry={setCountry}
-        setRemote={setRemote}
-        setMobility={setMobility}
-      />
+    <span className="bg-gray-light w-full h-full flex justify-center">
       <Table
         columns={columns}
         data={data}
@@ -90,8 +95,19 @@ const Candidatetable = () => {
         countryFilter={country}
         remoteFilter={remote}
         mobilityFilter={mobility}
+        skillsFilter={skills}
       />
-      {console.log(remote)}
+      <ExternalFilters
+        data={data}
+        setCity={setCity}
+        setCountry={setCountry}
+        setRemote={setRemote}
+        setMobility={setMobility}
+        skillsData={skillsData}
+        skills={skills}
+        setSkills={setSkills}
+        clearFilters={clearFilters}
+      />
     </span>
   );
 };
